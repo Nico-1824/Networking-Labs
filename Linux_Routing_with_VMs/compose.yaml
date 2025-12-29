@@ -1,0 +1,41 @@
+services:
+  client:
+    image: ubuntu
+    command: sleep infinity
+    cap_add:
+      - NET_ADMIN
+    networks:
+      netA:
+        ipv4_address: 10.0.1.10
+
+  user:
+    image: ubuntu
+    command: sleep infinity
+    cap_add:
+      - NET_ADMIN
+    networks:
+      netB:
+        ipv4_address: 10.0.2.10
+
+  router:
+    image: ubuntu
+    command: sleep infinity
+    cap_add:
+      - NET_ADMIN
+    privileged: true
+    networks:
+      netA:
+        ipv4_address: 10.0.1.2
+      netB:
+        ipv4_address: 10.0.2.2
+
+
+networks:
+  netA:
+    ipam:
+      config:
+        - subnet: 10.0.1.0/28
+  netB:
+    ipam:
+      config:
+        - subnet: 10.0.2.0/28
